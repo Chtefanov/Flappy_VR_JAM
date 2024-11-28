@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement; // To load the scene
 
 public class PlayerTriggerCollisionDebugger : MonoBehaviour
 {
+    public PlayerScore playerScore; // Reference to PlayerScore to call OnGameOver()
+
     // When the player enters a trigger collider
     private void OnTriggerEnter(Collider other)
     {
@@ -15,6 +17,12 @@ public class PlayerTriggerCollisionDebugger : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             Debug.Log("Collision with obstacle detected!");
+
+            // Call OnGameOver to save the highscore before reloading the scene
+            if (playerScore != null)
+            {
+                playerScore.OnGameOver();
+            }
 
             // End the game by reloading the current scene
             Debug.Log("Current active scene: " + SceneManager.GetActiveScene().name);

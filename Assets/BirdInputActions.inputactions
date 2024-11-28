@@ -1,0 +1,54 @@
+{
+    "name": "BirdInputActions",
+    "maps": [
+        {
+            "name": "HandMovements",
+            "id": "db81ebdb-e5e7-4664-a441-41900600ca84",
+            "actions": [
+                {
+                    "name": "LeftHandPosition",
+                    "type": "Value",
+                    "id": "dec1ac14-1832-4c17-97f0-aec75afcf19b",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RightHandPosition",
+                    "type": "Value",
+                    "id": "09290637-1dbf-49b6-84e3-c1ae99a653ce",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "57b72583-5470-4796-b35f-823583f33c0c",
+                    "path": "<XRController>/devicePosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftHandPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8014f13-430e-42d8-b39e-c9e2d2acbf16",
+                    "path": "<XRController>{RightHand}/devicePosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightHandPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

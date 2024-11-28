@@ -5,49 +5,56 @@ using UnityEngine.XR;
 
 public class FlappyBirdVR : MonoBehaviour
 {
-    [SerializeField] private XRNode controllerNode = XRNode.RightHand; // Use the right-hand controller by default
-    [SerializeField] private float flapStrength = 5f; // Vertical boost on a "flap"
-    [SerializeField] private float gravity = -9.8f; // Gravity applied to the bird
-    [SerializeField] private float flapThreshold = 0.1f; // Minimum controller Y movement to trigger a flap
+    [SerializeField] private XRNode controllerNode = XRNode.RightHand; // Choose Right or Left controller
+    [SerializeField] private float flapStrength = 5f; // The force applied when "flapping"
+    [SerializeField] private float flapThreshold = 0.1f; // Minimum movement to trigger a flap
 
-    private Vector3 velocity = Vector3.zero; // Bird's velocity
+    private Rigidbody rb;
     private InputDevice controller;
     private Vector3 lastControllerPosition;
 
     void Start()
     {
-        // Initialize the controller
+        // Initialize the Rigidbody and controller
+        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            Debug.LogError("No Rigidbody attached to the GameObject!");
+            return;
+        }
+
         controller = InputDevices.GetDeviceAtXRNode(controllerNode);
-        controller.TryGetFeatureValue(CommonUsages.devicePosition, out lastControllerPosition);
+        if (!controller.isValid)
+        {
+            Debug.LogError("Controller not found! Check XR setup.");
+        }
+        else
+        {
+            controller.TryGetFeatureValue(CommonUsages.devicePosition, out lastControllerPosition);
+        }
     }
 
     void Update()
     {
-        // Get the current position of the controller
-        if (controller.TryGetFeatureValue(CommonUsages.devicePosition, out Vector3 currentControllerPosition))
+        if (controller.isValid && controller.TryGetFeatureValue(CommonUsages.devicePosition, out Vector3 currentControllerPosition))
         {
+            // Calculate vertical movement
             float verticalMovement = currentControllerPosition.y - lastControllerPosition.y;
 
-            // If the controller moves upward enough, trigger a flap
+            // Apply a flap if the movement exceeds the threshold
             if (verticalMovement > flapThreshold)
             {
-                velocity.y = flapStrength;
+                rb.velocity = new Vector3(rb.velocity.x, flapStrength, rb.velocity.z);
             }
 
-            // Update the last controller position
+            // Update the last position for the next frame
             lastControllerPosition = currentControllerPosition;
         }
-
-        // Apply gravity
-        velocity.y += gravity * Time.deltaTime;
-
-        // Move the bird based on velocity
-        transform.position += velocity * Time.deltaTime;
-
-        // Optional: Limit downward speed
-        if (velocity.y < -10f)
+        else
         {
-            velocity.y = -10f;
+            Debug.LogWarning("Controller not providing position data.");
         }
     }
 }
+
+

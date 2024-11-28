@@ -1,0 +1,34 @@
+{
+    "name": "MenuInteraction",
+    "maps": [
+        {
+            "name": "SelectOnButtonInput",
+            "id": "a1ec870b-4714-401f-83c1-f3eece276fdb",
+            "actions": [
+                {
+                    "name": "SelectUI",
+                    "type": "Button",
+                    "id": "5289f938-7135-4fe9-8ff4-de1b074c2e43",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7efc6532-ee91-4f6b-a76e-e82b8b4f96db",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

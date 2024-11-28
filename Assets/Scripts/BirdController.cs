@@ -8,12 +8,9 @@ public class BirdController : MonoBehaviour
     public InputActionProperty rightHandPositionAction; // H?jre h?nd position
 
     [Header("Movement Settings")]
-    public float movementSpeed = 2.0f; // Hvor hurtigt fuglen bev?ger sig
-    public float sensitivity = 0.1f;   // F?lsomhed for h?ndbev?gelse
-
-    private Vector3 initialLeftHandPosition;
-    private Vector3 initialRightHandPosition;
-    private bool initialized = false;
+    public float movementSpeed = 2.0f;  // Hvor hurtigt fuglen bev?ger sig
+    public float shoulderHeight = 1.5f; // H?jde over jorden for skulderniveau
+    public float hipHeight = 0.8f;      // H?jde over jorden for hofteniveau
 
     void Update()
     {
@@ -21,30 +18,18 @@ public class BirdController : MonoBehaviour
         Vector3 leftHandPosition = leftHandPositionAction.action.ReadValue<Vector3>();
         Vector3 rightHandPosition = rightHandPositionAction.action.ReadValue<Vector3>();
 
-        // Initialiser startpositioner
-        if (!initialized)
+        // Beregn gennemsnitlig h?jde p? h?nderne
+        float averageHandHeight = (leftHandPosition.y + rightHandPosition.y) / 2.0f;
+
+        // Tjek h?ndniveau og bev?g sf?ren
+        if (averageHandHeight > shoulderHeight) // Hvis h?nderne er over skulderniveau
         {
-            if (leftHandPosition != Vector3.zero && rightHandPosition != Vector3.zero)
-            {
-                initialLeftHandPosition = leftHandPosition;
-                initialRightHandPosition = rightHandPosition;
-                initialized = true; // Kun initialiser ?n gang
-                Debug.Log("Initial hand positions set!");
-            }
-            return; // Vent, indtil h?nderne er initialiseret
+            transform.position += new Vector3(0, -movementSpeed * Time.deltaTime, 0); // Bev?g nedad
         }
-
-        // Beregn ?ndring i h?ndpositioner
-        float leftHandDeltaY = leftHandPosition.y - initialLeftHandPosition.y;
-        float rightHandDeltaY = rightHandPosition.y - initialRightHandPosition.y;
-
-        // Gennemsnit af h?ndbev?gelser
-        float averageDeltaY = (leftHandDeltaY + rightHandDeltaY) / 2.0f;
-
-        // Bev?g sf?ren op/ned
-        if (Mathf.Abs(averageDeltaY) > sensitivity)
+        else if (averageHandHeight < hipHeight) // Hvis h?nderne er under hofteniveau
         {
-            transform.position += new Vector3(0, averageDeltaY * movementSpeed * Time.deltaTime, 0);
+            transform.position += new Vector3(0, movementSpeed * Time.deltaTime, 0); // Bev?g opad
         }
+        // Hvis h?nderne er mellem skulder- og hofteniveau, bev?ger sf?ren sig ikke
     }
 }

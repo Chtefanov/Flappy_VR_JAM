@@ -327,8 +327,10 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 6217293505042683988, guid: 571e6aab05be6b64aafa10b8e22f06dc,
       type: 3}
-  movementSpeed: 3
-  sensitivity: 0.3
+  movementSpeed: 2
+  gravity: -0.5
+  maxFallSpeed: -1
+  sensitivity: 0.2
 --- !u!1 &154235815
 GameObject:
   m_ObjectHideFlags: 0

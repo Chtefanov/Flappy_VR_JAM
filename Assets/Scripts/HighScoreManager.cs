@@ -1,49 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using TMPro; // Add this to use TextMeshPro
 
 public class HighscoreManager : MonoBehaviour
 {
-    private const string HighscoreKey = "Highscore"; // Key to save/load highscore
-    public int highscore = 0; // The player's highscore
+    public int highscore = 0; // Stores the high score
 
-    public TextMeshProUGUI highscoreText; // UI TextMeshProUGUI to display the highscore
+    private const string HighscoreKey = "Highscore"; // Key for PlayerPrefs
 
-    private void Start()
-    {
-        LoadHighscore(); // Load the highscore when the game starts
-    }
-
-    // Save the highscore if the current score is higher
-    public void SaveHighscore(int score)
-    {
-        if (score > highscore)
-        {
-            highscore = score;
-            PlayerPrefs.SetInt(HighscoreKey, highscore); // Save to PlayerPrefs
-            PlayerPrefs.Save();
-        }
-    }
-
-    // Load the highscore from PlayerPrefs
+    // Load the high score from PlayerPrefs
     public void LoadHighscore()
     {
-        highscore = PlayerPrefs.GetInt(HighscoreKey, 0); // Default to 0 if no highscore is found
-        if (highscoreText != null)
+        highscore = PlayerPrefs.GetInt(HighscoreKey, 0); // Default is 0 if no high score exists
+    }
+
+    // Save the high score to PlayerPrefs
+    public void SaveHighscore(int score)
+    {
+        if (score > highscore) // Save only if the new score is higher
         {
-            highscoreText.text = "Highscore: " + highscore.ToString(); // Update the highscore text
+            highscore = score;
+            PlayerPrefs.SetInt(HighscoreKey, highscore);
+            PlayerPrefs.Save(); // Ensure data is written to disk
         }
     }
 
-    // Display the highscore in the UI
-    public void DisplayHighscore(TextMeshProUGUI scoreText)
+    // Optional: Display high score in UI
+    public void DisplayHighscore(TextMeshProUGUI highscoreText)
     {
-        if (scoreText != null)
+        if (highscoreText != null)
         {
-            scoreText.text = "Highscore: " + highscore.ToString(); // Update the score text
+            highscoreText.text = "Highscore: " + highscore.ToString();
         }
     }
 }
+
 
 

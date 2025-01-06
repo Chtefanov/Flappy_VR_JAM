@@ -1,17 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-    public TextMeshProUGUI highscoreText; // UI TextMeshProUGUI to display the highscore
-    private HighscoreManager highscoreManager; // Reference to the HighscoreManager script
+    public TextMeshProUGUI highscoreText; // Assign this in the Inspector
+    private HighscoreManager highscoreManager; // Reference to the HighscoreManager
 
     private void Start()
     {
-        highscoreManager = FindObjectOfType<HighscoreManager>(); // Find HighscoreManager in the scene
-        UpdateHighscoreText(); // Update the highscore text when the menu starts
+        highscoreManager = FindObjectOfType<HighscoreManager>(); // Find the HighscoreManager in the scene
+
+        if (highscoreManager != null)
+        {
+            highscoreManager.LoadHighscore(); // Load the highscore
+            UpdateHighscoreText(); // Update the UI
+        }
     }
 
     private void UpdateHighscoreText()
@@ -22,3 +25,5 @@ public class MainMenu : MonoBehaviour
         }
     }
 }
+
+

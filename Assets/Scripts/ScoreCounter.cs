@@ -1,20 +1,20 @@
+using TMPro;
 using UnityEngine;
-using TMPro; // Add this to use TextMeshPro
 
 public class PlayerScore : MonoBehaviour
 {
-    public int score = 0; // The player's score
-    public TextMeshProUGUI scoreText; // UI TextMeshProUGUI to display the score
-    private HighscoreManager highscoreManager; // Reference to the HighscoreManager script
-    private AudioSource audioSource; // Reference to AudioSource
+    public int score = 0;
+    public TextMeshProUGUI scoreText;
+    private HighscoreManager highscoreManager;
+    private AudioSource audioSource;
 
     private void Start()
     {
-        highscoreManager = FindObjectOfType<HighscoreManager>(); // Find HighscoreManager in the scene
-        audioSource = GetComponent<AudioSource>(); // Get the AudioSource component
-        UpdateScoreText(); // Initialize the score text when the game starts
+        highscoreManager = FindObjectOfType<HighscoreManager>();
+        audioSource = GetComponent<AudioSource>();
+        UpdateScoreText();
 
-        // Load and display the highscore at the start
+        // Load the high score at the start
         if (highscoreManager != null)
         {
             highscoreManager.LoadHighscore();
@@ -24,15 +24,15 @@ public class PlayerScore : MonoBehaviour
     public void AddScore(int points)
     {
         score += points;
-        PlayScoreSound(); // Play sound when score is added
-        UpdateScoreText(); // Update score when points are added
+        PlayScoreSound();
+        UpdateScoreText();
     }
 
     private void UpdateScoreText()
     {
         if (scoreText != null)
         {
-            scoreText.text = "Score: " + score.ToString(); // Update the score text
+            scoreText.text = "Score: " + score.ToString();
         }
     }
 
@@ -40,17 +40,16 @@ public class PlayerScore : MonoBehaviour
     {
         if (audioSource != null)
         {
-            audioSource.Play(); // Play the assigned sound
+            audioSource.Play();
         }
     }
 
-    // Call this method when the game ends to save the highscore and update the UI
     public void OnGameOver()
     {
         if (highscoreManager != null)
         {
-            highscoreManager.SaveHighscore(score); // Save the highscore if necessary
-            highscoreManager.DisplayHighscore(scoreText); // Display highscore in the UI
+            highscoreManager.SaveHighscore(score); // Save the highscore
+            highscoreManager.DisplayHighscore(scoreText); // Optionally display the highscore
         }
     }
 }

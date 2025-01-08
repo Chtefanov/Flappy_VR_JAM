@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement; // To load the scene
+using System.Collections;
 
 public class PlayerTriggerCollisionDebugger : MonoBehaviour
 {
@@ -9,32 +11,44 @@ public class PlayerTriggerCollisionDebugger : MonoBehaviour
     public AudioSource gameOverSound; // Reference to the AudioSource for the game-over sound
     public float delayBeforeRestart = 2f; // Delay in seconds before restarting the scene
 
+    private bool isGameOver = false; // Prevent multiple triggers
+
     // When the player enters a trigger collider
     private void OnTriggerEnter(Collider other)
     {
         // Log the name of the object the player collided with
         Debug.Log("Triggered with: " + other.gameObject.name);
 
-        // Check if the player triggered with an obstacle (cylinder)
+        // Only trigger game over logic if the player collided with an obstacle
         if (other.CompareTag("Obstacle"))
         {
             Debug.Log("Collision with obstacle detected!");
 
-            // Call OnGameOver to save the high score
-            if (playerScore != null)
+            // Check if game over logic has already been triggered to prevent repeat actions
+            if (!isGameOver)
             {
-                playerScore.OnGameOver();
-            }
+                isGameOver = true; // Prevent further triggers
 
-            // Start the game-over sequence
-            StartCoroutine(GameOverSequence());
+                // Call OnGameOver to save the high score
+                if (playerScore != null)
+                {
+                    playerScore.OnGameOver();
+                }
+
+                // Start the game-over sequence
+                StartCoroutine(GameOverSequence());
+            }
+        }
+        else
+        {
+            Debug.Log("No game-ending collision detected.");
         }
     }
 
     // Coroutine to handle game-over delay and restart
     private IEnumerator GameOverSequence()
     {
-        // Play the game-over sound
+        // Play the game-over sound only once and only after a valid collision
         if (gameOverSound != null)
         {
             gameOverSound.Play();
@@ -44,7 +58,7 @@ public class PlayerTriggerCollisionDebugger : MonoBehaviour
             Debug.LogWarning("Game over sound is not assigned!");
         }
 
-        // Stop time
+        // Stop time (pause gameplay, not audio)
         Time.timeScale = 0;
 
         // Wait for the specified delay (scaled by real-time, not game time)

@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement; // To load the scene
 public class PlayerTriggerCollisionDebugger : MonoBehaviour
 {
     public PlayerScore playerScore; // Reference to PlayerScore to call OnGameOver()
+    public AudioSource gameOverSound; // Reference to the AudioSource for the game-over sound
+    public float delayBeforeRestart = 2f; // Delay in seconds before restarting the scene
 
     // When the player enters a trigger collider
     private void OnTriggerEnter(Collider other)
@@ -18,16 +20,42 @@ public class PlayerTriggerCollisionDebugger : MonoBehaviour
         {
             Debug.Log("Collision with obstacle detected!");
 
-            // Call OnGameOver to save the highscore before reloading the scene
+            // Call OnGameOver to save the high score
             if (playerScore != null)
             {
                 playerScore.OnGameOver();
             }
 
-            // End the game by reloading the current scene
-            Debug.Log("Current active scene: " + SceneManager.GetActiveScene().name);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload current scene
+            // Start the game-over sequence
+            StartCoroutine(GameOverSequence());
         }
+    }
+
+    // Coroutine to handle game-over delay and restart
+    private IEnumerator GameOverSequence()
+    {
+        // Play the game-over sound
+        if (gameOverSound != null)
+        {
+            gameOverSound.Play();
+        }
+        else
+        {
+            Debug.LogWarning("Game over sound is not assigned!");
+        }
+
+        // Stop time
+        Time.timeScale = 0;
+
+        // Wait for the specified delay (scaled by real-time, not game time)
+        yield return new WaitForSecondsRealtime(delayBeforeRestart);
+
+        // Resume time
+        Time.timeScale = 1;
+
+        // Restart the scene
+        Debug.Log("Restarting scene: " + SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     // Optional: Log when the player enters the trigger zone to verify if it's being entered
@@ -48,3 +76,5 @@ public class PlayerTriggerCollisionDebugger : MonoBehaviour
         }
     }
 }
+
+

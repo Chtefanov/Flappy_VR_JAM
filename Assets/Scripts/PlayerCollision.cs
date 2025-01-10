@@ -1,45 +1,47 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerCollision : MonoBehaviour
 {
-    public float delayBeforeRestart = 2f; // Delay in seconds before restarting the scene
+    public GameObject lastUIElements; // Reference til Last UI Elements
+    public Canvas uiCanvas; // Reference til det canvas, hvor UI-elementerne befinder sig
 
-    private bool isGameOver = false; // Prevent multiple triggers
+    private bool isGameOver = false;
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Check if the collision is with an obstacle
+        // Check om kollisionen er med en obstacle
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            Debug.Log("Collision with obstacle detected!");
+            Debug.Log("Collision detected with obstacle: " + collision.gameObject.name);
 
-            // Prevent multiple triggers
             if (!isGameOver)
             {
                 isGameOver = true;
-
-                // Stop the game
-                StartCoroutine(GameOverSequence());
+                HandleGameOver();
             }
         }
     }
 
-    // Coroutine to handle game-over delay and restart
-    private IEnumerator GameOverSequence()
+    private void HandleGameOver()
     {
-        // Pause gameplay (not audio)
-        Time.timeScale = 0;
+        Debug.Log("Game Over! Stopping the game.");
 
-        // Wait for the specified delay
-        yield return new WaitForSecondsRealtime(delayBeforeRestart);
+        // Stop spillet ved at s?tte isGameStarted til false
+        if (GameManagement.Instance != null)
+        {
+            GameManagement.Instance.EndGame();
+        }
 
-        // Resume gameplay
-        Time.timeScale = 1;
+        // Aktiv?r det sidste UI-element
+        if (lastUIElements != null)
+        {
+            lastUIElements.SetActive(true);
+        }
 
-        // Restart the scene
-        //Debug.Log("Restarting scene: " + SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // Aktiv?r canvas, hvis det ikke allerede er aktivt
+        if (uiCanvas != null)
+        {
+            uiCanvas.gameObject.SetActive(true);
+        }
     }
 }

@@ -3,28 +3,22 @@ using UnityEngine;
 
 public class HighscoreManager : MonoBehaviour
 {
-    public int highscore = 0; // Stores the high score
+    public int highscore = 0;
 
-    private const string HighscoreKey = "Highscore"; // Key for PlayerPrefs
-
-    // Load the high score from PlayerPrefs
+    private const string HighscoreKey = "Highscore"; 
     public void LoadHighscore()
     {
-        highscore = PlayerPrefs.GetInt(HighscoreKey, 0); // Default is 0 if no high score exists
+        highscore = PlayerPrefs.GetInt(HighscoreKey, 0); 
     }
-
-    // Save the high score to PlayerPrefs
     public void SaveHighscore(int score)
     {
-        if (score > highscore) // Save only if the new score is higher
+        if (score > highscore)
         {
             highscore = score;
             PlayerPrefs.SetInt(HighscoreKey, highscore);
-            PlayerPrefs.Save(); // Ensure data is written to disk
+            PlayerPrefs.Save();
         }
     }
-
-    // Optional: Display high score in UI
     public void DisplayHighscore(TextMeshProUGUI highscoreText)
     {
         if (highscoreText != null)

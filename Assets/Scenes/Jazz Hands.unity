@@ -12011,7 +12011,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstaclePrefabs:
   - {fileID: 9222951060572293402, guid: 1c0a0683b4147ff479919d000280c29f, type: 3}
-  player: {fileID: 100304939}
+  player: {fileID: 1132998265}
   spawnDistance: 55
   spawnInterval: 4
   minHeight: -4.5
@@ -14617,9 +14617,10 @@ GameObject:
   - component: {fileID: 1132998266}
   - component: {fileID: 1132998269}
   - component: {fileID: 1132998271}
+  - component: {fileID: 1132998272}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14657,7 +14658,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -14783,6 +14784,20 @@ MonoBehaviour:
   downwardForce: -3.5
   gentleDescendForce: -1
   movementSensitivity: 0.1
+--- !u!114 &1132998272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132998264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db5cce6d4f21e8148af4c7602f39a248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastUIElements: {fileID: 508893866}
+  uiCanvas: {fileID: 434265904}
 --- !u!4 &1139873710 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7165719560596869593, guid: 91b1f3859bd790b4a99ffc1d8108b718,

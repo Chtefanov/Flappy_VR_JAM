@@ -8,17 +8,18 @@ public class FlightControl : MonoBehaviour
     public Transform rightCalibrationPoint;
     public Rigidbody sphere;
 
-    public float upwardForce = 5f; // Kraft n?r controllerne peger nedad
-    public float downwardForce = -10f; // Kraft n?r controllerne peger opad
-    public float gentleDescendForce = -2f; // Langsom faldkraft i neutral position
-    public float neutralThreshold = 0.1f; // Neutralzone t?rskel
-    public float maxSpeed = 10f; // Begr?ns Sphere's maksimale hastighed
+    public float upwardForce = 8f; // Kraft til at bev?ge opad
+    public float downwardForce = -8f; // Kraft til at bev?ge nedad
+    public float gentleDescendForce = -2f; // Langsom nedadg?ende bev?gelse
+    public float neutralThreshold = 0.1f; // Omr?de omkring kalibreringspunktet, der anses for neutralt
+    public float maxSpeed = 10f; // Maksimal hastighed for Sphere
 
     private void Start()
     {
         if (sphere != null)
         {
-            sphere.isKinematic = true;
+            sphere.useGravity = false; // Deaktiver gravity
+            sphere.isKinematic = true; // Forhindr fysisk bev?gelse indtil spillet starter
         }
     }
 
@@ -28,13 +29,15 @@ public class FlightControl : MonoBehaviour
         {
             if (sphere != null)
             {
+                sphere.useGravity = false;
                 sphere.isKinematic = true;
             }
-            return;
+            return; // G?r intet, hvis spillet ikke er startet
         }
 
         if (sphere != null && sphere.isKinematic)
         {
+            sphere.useGravity = false; // Forbliv uden gravity
             sphere.isKinematic = false;
         }
 
@@ -44,20 +47,23 @@ public class FlightControl : MonoBehaviour
         float leftRelativeY = leftController.position.y - leftCalibrationPoint.position.y;
         float rightRelativeY = rightController.position.y - rightCalibrationPoint.position.y;
 
-        if (leftRelativeY < -neutralThreshold && rightRelativeY < -neutralThreshold)
+        // Gennemsnit af begge controllere for at finde en samlet retning
+        float averageRelativeY = (leftRelativeY + rightRelativeY) / 2f;
+
+        if (averageRelativeY < -neutralThreshold) // Controllere peger nedad
         {
             ApplyForce(Vector3.up * upwardForce);
         }
-        else if (leftRelativeY > neutralThreshold && rightRelativeY > neutralThreshold)
+        else if (averageRelativeY > neutralThreshold) // Controllere peger opad
         {
             ApplyForce(Vector3.up * downwardForce);
         }
-        else
+        else // Neutral position (arme t?t p? kalibreringspunkt)
         {
             ApplyForce(Vector3.up * gentleDescendForce);
         }
 
-        LimitVelocity();
+        LimitVelocity(); // Begr?ns Sphere's hastighed
     }
 
     private void ApplyForce(Vector3 force)
@@ -67,9 +73,13 @@ public class FlightControl : MonoBehaviour
 
     private void LimitVelocity()
     {
-        if (sphere.velocity.magnitude > maxSpeed)
+        if (sphere.velocity.y > maxSpeed)
         {
-            sphere.velocity = sphere.velocity.normalized * maxSpeed;
+            sphere.velocity = new Vector3(sphere.velocity.x, maxSpeed, sphere.velocity.z);
+        }
+        else if (sphere.velocity.y < -maxSpeed)
+        {
+            sphere.velocity = new Vector3(sphere.velocity.x, -maxSpeed, sphere.velocity.z);
         }
     }
 }

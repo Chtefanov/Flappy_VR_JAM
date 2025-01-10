@@ -2709,7 +2709,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 202649414}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.6}
+  m_LocalPosition: {x: 0, y: 0, z: 673}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2717,8 +2717,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 549.75995, y: 431.89}
-  m_SizeDelta: {x: 356.76, y: 66.51}
+  m_AnchoredPosition: {x: 784.51, y: 431.89}
+  m_SizeDelta: {x: 447.79, y: 66.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &202649416
 MonoBehaviour:
@@ -14668,6 +14668,7 @@ GameObject:
   - component: {fileID: 1132998271}
   - component: {fileID: 1132998273}
   - component: {fileID: 1132998274}
+  - component: {fileID: 1132998275}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -14943,8 +14944,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerScore: {fileID: 100304945}
-  gameOverSound: {fileID: 0}
+  gameOverSound: {fileID: 622944115}
   delayBeforeRestart: 2
+--- !u!114 &1132998275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132998264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d0dfc78f362b724d8ee1eb3b5b05144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 0
+  scoreText: {fileID: 202649416}
 --- !u!4 &1139873710 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7165719560596869593, guid: 91b1f3859bd790b4a99ffc1d8108b718,
@@ -19798,7 +19813,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1506251342}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.600003}
+  m_LocalPosition: {x: 0, y: 0, z: 673}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19806,8 +19821,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 647, y: 384}
-  m_SizeDelta: {x: 386.34, y: 64.21}
+  m_AnchoredPosition: {x: 870.21, y: 384}
+  m_SizeDelta: {x: 454.27, y: 64.21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1508496391 stripped
 Transform:
@@ -21629,7 +21644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1667608605
 Transform:
   m_ObjectHideFlags: 0

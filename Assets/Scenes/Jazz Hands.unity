@@ -1648,36 +1648,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftHandPositionAction:
-    m_UseReference: 1
+    m_UseReference: 0
     m_Action:
-      m_Name: Left Hand Position
+      m_Name: 
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 89a36214-5c2d-449e-9d00-01542ae0537e
+      m_Id: f0cdcbd5-e372-4559-be51-78f256f9831f
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -8521451762743143639, guid: 571e6aab05be6b64aafa10b8e22f06dc,
-      type: 3}
+    m_Reference: {fileID: 0}
   rightHandPositionAction:
-    m_UseReference: 1
+    m_UseReference: 0
     m_Action:
-      m_Name: Right Hand Position
+      m_Name: 
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 9fd6765a-9a2e-4ede-a4c4-c041d46dbda8
+      m_Id: 0db0fa6d-ddb9-4e8c-9913-5d5e721875c2
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 6217293505042683988, guid: 571e6aab05be6b64aafa10b8e22f06dc,
-      type: 3}
-  movementSpeed: 3.5
-  sensitivity: 0.2
-  initialLeftHandPosition: {x: 0, y: 0, z: 0}
-  initialRightHandPosition: {x: 0, y: 0, z: 0}
-  initialized: 0
+    m_Reference: {fileID: 0}
+  movementSpeed: 2
+  sensitivity: 0.1
 --- !u!114 &100304945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5351,7 +5346,7 @@ Transform:
   m_GameObject: {fileID: 391198857}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.033154, y: 12.734215, z: -26.268623}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12017,8 +12012,8 @@ MonoBehaviour:
   obstaclePrefabs:
   - {fileID: 9222951060572293402, guid: 1c0a0683b4147ff479919d000280c29f, type: 3}
   player: {fileID: 100304939}
-  spawnDistance: 45
-  spawnInterval: 3
+  spawnDistance: 55
+  spawnInterval: 4
   minHeight: -4.5
   maxHeight: 4.5
 --- !u!4 &892777111
@@ -12030,7 +12025,7 @@ Transform:
   m_GameObject: {fileID: 892777109}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.664468, y: -10.293776, z: 20.998463}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14662,7 +14657,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -14724,8 +14719,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132998264}
   serializedVersion: 4
-  m_Mass: 0.0000001
-  m_Drag: 0
+  m_Mass: 1
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -14739,7 +14734,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -14755,16 +14750,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6f16acd0438f943ad6cab95233a440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftController: {fileID: 1164701569}
-  rightController: {fileID: 836110917}
+  leftHandPositionAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Left Hand Position
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: b51875e2-7952-426d-9057-51225db9a69d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -2024308242397127297, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
+  rightHandPositionAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Right Hand Position
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 7923b763-1935-4e32-bf36-00d3615a7e43
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -3326005586356538449, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
   leftCalibrationPoint: {fileID: 426362235}
   rightCalibrationPoint: {fileID: 953818340}
   sphere: {fileID: 1132998269}
-  upwardForce: 8
-  downwardForce: -8
-  gentleDescendForce: -2
-  neutralThreshold: 0.1
-  maxSpeed: 10
+  upwardForce: 3.5
+  downwardForce: -3.5
+  gentleDescendForce: -1
+  movementSensitivity: 0.1
 --- !u!4 &1139873710 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7165719560596869593, guid: 91b1f3859bd790b4a99ffc1d8108b718,

@@ -9,17 +9,19 @@ public class ObstacleMovementNoScore : MonoBehaviour
 
     private void Update()
     {
-        // Move the obstacle towards the player (along negative Z-axis)
-        transform.position += Vector3.back * speed * Time.deltaTime;
-
-        // Optionally destroy the obstacle once it's out of the screen
-        if (transform.position.z < -10f)
+        // Tjek om spillet er startet via GameManagement singletonen
+        if (GameManagement.Instance != null && GameManagement.Instance.IsGameStarted())
         {
-            Destroy(gameObject); // Destroy the object when it's out of the screen
+            // Move the obstacle towards the player (along negative Z-axis)
+            transform.position += Vector3.back * speed * Time.deltaTime;
+
+            // Optionally destroy the obstacle once it's out of the screen
+            if (transform.position.z < -10f)
+            {
+                Destroy(gameObject); // Destroy the object when it's out of the screen
+            }
         }
     }
-
-    // Set the initial player Z position when the obstacle spawns
     public void SetPlayerZPosition(float playerZ)
     {
         playerZPosition = playerZ; // This stores the player's initial position for reference

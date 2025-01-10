@@ -15,16 +15,32 @@ public class LateralPrefabSpawner : MonoBehaviour
     public float minXOffset = 2f;      // Minimum X offset from the player's position
     public float maxXOffset = 5f;      // Maximum X offset from the player's position
 
+    private Coroutine spawnCoroutine;  // Reference to the spawn coroutine
+
     private void Start()
     {
-        // Start spawning prefabs at regular intervals
+        // Start the spawning coroutine
         if (prefabOptions.Length > 0)
         {
-            InvokeRepeating(nameof(SpawnPrefab), 0f, spawnInterval);
+            spawnCoroutine = StartCoroutine(SpawnPrefabs());
         }
         else
         {
-            Debug.LogError("No prefabs assigned!");
+         //   Debug.LogError("No prefabs assigned!");
+        }
+    }
+
+    private IEnumerator SpawnPrefabs()
+    {
+        while (true)
+        {
+            // Check if the game is started
+            if (GameManagement.Instance != null && GameManagement.Instance.IsGameStarted())
+            {
+                SpawnPrefab(); // Spawn a prefab
+            }
+
+            yield return new WaitForSeconds(spawnInterval); // Wait for the interval
         }
     }
 
@@ -33,7 +49,7 @@ public class LateralPrefabSpawner : MonoBehaviour
         // Ensure there are prefabs to spawn
         if (prefabOptions.Length == 0)
         {
-            Debug.LogError("No prefabs assigned!");
+          //  Debug.LogError("No prefabs assigned!");
             return;
         }
 
@@ -61,6 +77,15 @@ public class LateralPrefabSpawner : MonoBehaviour
         Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
 
         // Debug: Show spawn position for debugging purposes
-        Debug.Log($"Spawned prefab at position: {spawnPosition}");
+       // Debug.Log($"Spawned prefab at position: {spawnPosition}");
+    }
+
+    private void OnDestroy()
+    {
+        // Stop the coroutine when the spawner is destroyed
+        if (spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine);
+        }
     }
 }

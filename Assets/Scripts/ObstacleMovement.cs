@@ -18,6 +18,12 @@ public class ObstacleMovement : MonoBehaviour
 
     private void Update()
     {
+        // Check if the game is started
+        if (GameManagement.Instance != null && !GameManagement.Instance.IsGameStarted())
+        {
+            return; // Do not move if the game hasn't started
+        }
+
         // Move the obstacle towards the player (along negative Z-axis)
         transform.position += Vector3.back * speed * Time.deltaTime;
 

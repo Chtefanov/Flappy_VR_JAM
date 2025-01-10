@@ -11,10 +11,26 @@ public class ObstacleSpawner : MonoBehaviour
     public float minHeight = -4.5f;      // Minimum height for spawning
     public float maxHeight = 10f;        // Maximum height for spawning
 
+    private Coroutine spawnCoroutine;    // Reference to the spawn coroutine
+
     private void Start()
     {
-        // Start spawning obstacles at regular intervals
-        InvokeRepeating(nameof(SpawnObstacle), 0f, spawnInterval);
+        // Start the spawning coroutine
+        spawnCoroutine = StartCoroutine(SpawnObstacles());
+    }
+
+    private IEnumerator SpawnObstacles()
+    {
+        while (true)
+        {
+            // Check if the game is started
+            if (GameManagement.Instance != null && GameManagement.Instance.IsGameStarted())
+            {
+                SpawnObstacle(); // Spawn an obstacle
+            }
+
+            yield return new WaitForSeconds(spawnInterval); // Wait for the interval
+        }
     }
 
     private void SpawnObstacle()
@@ -44,5 +60,13 @@ public class ObstacleSpawner : MonoBehaviour
             obstacleMovement.SetPlayerZPosition(player.position.z);  // Pass the player's Z position to the obstacle
         }
     }
-}
 
+    private void OnDestroy()
+    {
+        // Stop the coroutine when the spawner is destroyed
+        if (spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine);
+        }
+    }
+}

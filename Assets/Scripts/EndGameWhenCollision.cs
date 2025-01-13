@@ -60,23 +60,20 @@ public class PlayerTriggerCollisionDebugger : MonoBehaviour
             obstacleSpawner.DespawnAllObstacles();
         }
 
-        // Reactivate the canvas
+        // Reactivate the canvas and ensure only "Last UI Elements" are active
         if (calibrationNoticer != null && calibrationNoticer.uiCanvas != null)
         {
-            // Clear "Begin Flapping" text to avoid showing it in the wrong state
-            calibrationNoticer.ClearBeginFlappingText();
-
             calibrationNoticer.uiCanvas.SetActive(true);
+        }
+
+        // Deactivate Initial UI to ensure it doesn't reappear
+        if (uiManager != null)
+        {
+            uiManager.DisableAllUIExceptLast(); // Custom method to handle UI visibility
         }
 
         // Wait before showing the Game Over UI
         yield return new WaitForSecondsRealtime(delayBeforeGameOverUI);
-
-        // Update GameManagement state
-        if (GameManagement.Instance != null)
-        {
-            GameManagement.Instance.ResetGame(); // Set isGameStarted to false
-        }
 
         // Show Game Over UI
         if (uiManager != null && uiManager.lastUIElements != null)

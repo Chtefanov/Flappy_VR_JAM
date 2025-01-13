@@ -163,6 +163,26 @@ public class UIManager : MonoBehaviour
         OnMode1Pressed(); // Simuler "Mode1"-knappen trykket
         Debug.Log("Retry button: Scene reloaded and Mode1 activated.");
     }
+    public void DisableAllUIExceptLast()
+    {
+        if (initialUIElements != null)
+            initialUIElements.SetActive(false);
+
+        if (secondaryUIElements != null)
+            secondaryUIElements.SetActive(false);
+
+        if (calibrationUIElements != null)
+            calibrationUIElements.SetActive(false);
+
+        if (calibrationUIInfoElements != null)
+            calibrationUIInfoElements.SetActive(false);
+
+        if (lastUIElements != null)
+            lastUIElements.SetActive(false); // Ensure it's not accidentally activated before the collision logic
+
+        Debug.Log("All UI elements deactivated except Last UI.");
+    }
+
 
     // Nulstil kalibreringspunkterne til deres oprindelige tilstand
     private void ResetCalibrationPoints()

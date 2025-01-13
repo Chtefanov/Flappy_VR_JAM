@@ -8,10 +8,11 @@ public class ObstacleSpawner : MonoBehaviour
     public Transform player;              // The player transform
     public float spawnDistance = 10f;     // Distance from the player to spawn the obstacles
     public float spawnInterval = 2f;      // Time interval between each spawn
-    public float minHeight = -4.5f;      // Minimum height for spawning
-    public float maxHeight = 10f;        // Maximum height for spawning
+    public float minHeight = -4.5f;       // Minimum height for spawning
+    public float maxHeight = 10f;         // Maximum height for spawning
 
-    private Coroutine spawnCoroutine;    // Reference to the spawn coroutine
+    private Coroutine spawnCoroutine;     // Reference to the spawn coroutine
+    private List<GameObject> spawnedObstacles = new List<GameObject>(); // List to track spawned obstacles
 
     private void Start()
     {
@@ -27,9 +28,13 @@ public class ObstacleSpawner : MonoBehaviour
             if (GameManagement.Instance != null && GameManagement.Instance.IsGameStarted())
             {
                 SpawnObstacle(); // Spawn an obstacle
+                yield return new WaitForSeconds(spawnInterval); // Wait for the interval
             }
-
-            yield return new WaitForSeconds(spawnInterval); // Wait for the interval
+            else
+            {
+                // If the game is not started, wait without spawning
+                yield return null;
+            }
         }
     }
 
@@ -52,13 +57,24 @@ public class ObstacleSpawner : MonoBehaviour
 
         // Instantiate the selected obstacle prefab at the calculated position
         GameObject obstacle = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
+        spawnedObstacles.Add(obstacle); // Add the spawned obstacle to the list
+    }
 
-        // Get the ObstacleMovement script and set the player's Z position for comparison
-        ObstacleMovement obstacleMovement = obstacle.GetComponent<ObstacleMovement>();
-        if (obstacleMovement != null)
+    public void DespawnAllObstacles()
+    {
+        // Deactivate all spawned obstacles
+        foreach (GameObject obstacle in spawnedObstacles)
         {
-            obstacleMovement.SetPlayerZPosition(player.position.z);  // Pass the player's Z position to the obstacle
+            if (obstacle != null)
+            {
+                Destroy(obstacle); // Remove from scene
+            }
         }
+
+        // Clear the list after despawning
+        spawnedObstacles.Clear();
+
+        Debug.Log("All obstacles have been despawned.");
     }
 
     private void OnDestroy()

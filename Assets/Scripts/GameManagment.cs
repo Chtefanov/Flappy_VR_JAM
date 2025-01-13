@@ -2,39 +2,37 @@ using UnityEngine;
 
 public class GameManagement : MonoBehaviour
 {
-    // Singleton instance
     public static GameManagement Instance { get; private set; }
     private bool isGameStarted = false;
 
     [Header("UI Elements")]
-    public GameObject initialUIElements;       // Parent til Start-knappen osv.
-    public GameObject secondaryUIElements;    // Parent til Secondary UI Elements
-    public GameObject calibrationModeUI;      // Parent til Calibration Mode UI
-    public GameObject lastUIElements;         // Parent til Last UI Elements
+    public GameObject initialUIElements;
+    public GameObject secondaryUIElements;
+    public GameObject calibrationModeUI;
+    public GameObject lastUIElements;
     public GameObject calibrationPoints;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        // Hvis en anden instans eksisterer, destruer den for at sikre ren opstart
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // G?r dette objekt persistent
     }
 
     public void StartGame()
     {
+        Time.timeScale = 1; // S?rg for, at spillet k?rer normalt
         isGameStarted = true;
 
-        // Skjul initial UI
         if (initialUIElements != null)
             initialUIElements.SetActive(false);
 
-        // Skjul alle andre UI-elementer
         if (secondaryUIElements != null)
             secondaryUIElements.SetActive(false);
 
@@ -46,14 +44,44 @@ public class GameManagement : MonoBehaviour
 
         if (calibrationPoints != null)
             calibrationPoints.SetActive(false);
+
+        Debug.Log("Game started successfully. Time.timeScale: " + Time.timeScale);
     }
+
     public bool IsGameStarted()
     {
         return isGameStarted;
     }
+
     public void ResetGame()
     {
-        StartGame();
+        isGameStarted = false;
+
+        // Genskab UI-tilstand
+        if (initialUIElements != null)
+            initialUIElements.SetActive(true);
+
+        if (secondaryUIElements != null)
+            secondaryUIElements.SetActive(false);
+
+        if (calibrationModeUI != null)
+            calibrationModeUI.SetActive(false);
+
+        if (lastUIElements != null)
+            lastUIElements.SetActive(false);
+
+        if (calibrationPoints != null)
+            calibrationPoints.SetActive(false);
+
+        Debug.Log("Game state has been reset.");
+    }
+
+    // Nulstil singleton ved scenegenindl?sning
+    public void ResetSingleton()
+    {
+        Instance = null;
+        Destroy(gameObject); // S?rg for, at objektet slettes
+        Debug.Log("GameManagement singleton nulstillet.");
     }
 
     public void EndGame()

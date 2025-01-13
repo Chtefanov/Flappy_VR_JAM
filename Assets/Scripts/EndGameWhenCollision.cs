@@ -1,91 +1,89 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; // To load the scene
-using System.Collections;
 
 public class PlayerTriggerCollisionDebugger : MonoBehaviour
 {
-    public PlayerScore playerScore; // Reference to PlayerScore to call OnGameOver()
-    public AudioSource gameOverSound; // Reference to the AudioSource for the game-over sound
-    public float delayBeforeRestart = 2f; // Delay in seconds before restarting the scene
+    public PlayerScore playerScore; // Reference to PlayerScore
+    public AudioSource gameOverSound; // Game-over sound
+    public float delayBeforeGameOverUI = 2f; // Delay before showing the Game Over UI
 
     private bool isGameOver = false; // Prevent multiple triggers
 
-    // When the player enters a trigger collider
+    // References to other components
+    public UIManager uiManager; // For UI management
+    public CalibrationNoticer calibrationNoticer; // For UI canvas control
+    public ObstacleSpawner obstacleSpawner; // To handle obstacle spawning and despawning
+
     private void OnTriggerEnter(Collider other)
     {
-        // Log the name of the object the player collided with
-        Debug.Log("Triggered with: " + other.gameObject.name);
-
-        // Only trigger game over logic if the player collided with an obstacle
-        if (other.CompareTag("Obstacle"))
+        if (other.CompareTag("Obstacle")) // Check if collided object is an obstacle
         {
-            Debug.Log("Collision with obstacle detected!");
-
-            // Check if game over logic has already been triggered to prevent repeat actions
             if (!isGameOver)
             {
-                isGameOver = true; // Prevent further triggers
+                isGameOver = true; // Mark game as over
 
-                // Call OnGameOver to save the high score
+                // Trigger PlayerScore OnGameOver logic
                 if (playerScore != null)
                 {
                     playerScore.OnGameOver();
                 }
 
-                // Start the game-over sequence
-                StartCoroutine(GameOverSequence());
+                // Start game-over sequence
+                StartCoroutine(GameOverSequence(other.gameObject)); // Pass the collided obstacle
             }
-        }
-        else
-        {
-            Debug.Log("No game-ending collision detected.");
         }
     }
 
-    // Coroutine to handle game-over delay and restart
-    private IEnumerator GameOverSequence()
+    private IEnumerator GameOverSequence(GameObject collidedObstacle)
     {
-        // Play the game-over sound only once and only after a valid collision
+        // Play game-over sound
         if (gameOverSound != null)
         {
             gameOverSound.Play();
         }
-        else
-        {
-            Debug.LogWarning("Game over sound is not assigned!");
-        }
 
-        // Stop time (pause gameplay, not audio)
+        // Pause the game
         Time.timeScale = 0;
 
-        // Wait for the specified delay (scaled by real-time, not game time)
-        yield return new WaitForSecondsRealtime(delayBeforeRestart);
-
-        // Resume time
-        Time.timeScale = 1;
-
-        // Restart the scene
-        Debug.Log("Restarting scene: " + SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    // Optional: Log when the player enters the trigger zone to verify if it's being entered
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Obstacle"))
+        // Deactivate the collided obstacle immediately
+        if (collidedObstacle != null)
         {
-            Debug.Log("Player is within trigger range of the obstacle.");
+            Destroy(collidedObstacle); // Remove the specific obstacle from the scene
         }
-    }
 
-    // Optional: Log when the player exits the trigger zone
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Obstacle"))
+        // Wait for 2 seconds before despawning the remaining obstacles
+        yield return new WaitForSecondsRealtime(2f);
+
+        // Despawn all remaining obstacles
+        if (obstacleSpawner != null)
         {
-            Debug.Log("Player exited trigger range of the obstacle.");
+            obstacleSpawner.DespawnAllObstacles();
         }
+
+        // Reactivate the canvas
+        if (calibrationNoticer != null && calibrationNoticer.uiCanvas != null)
+        {
+            // Clear "Begin Flapping" text to avoid showing it in the wrong state
+            calibrationNoticer.ClearBeginFlappingText();
+
+            calibrationNoticer.uiCanvas.SetActive(true);
+        }
+
+        // Wait before showing the Game Over UI
+        yield return new WaitForSecondsRealtime(delayBeforeGameOverUI);
+
+        // Update GameManagement state
+        if (GameManagement.Instance != null)
+        {
+            GameManagement.Instance.ResetGame(); // Set isGameStarted to false
+        }
+
+        // Show Game Over UI
+        if (uiManager != null && uiManager.lastUIElements != null)
+        {
+            uiManager.lastUIElements.SetActive(true);
+        }
+
+        Debug.Log("Game Over UI is now active.");
     }
 }

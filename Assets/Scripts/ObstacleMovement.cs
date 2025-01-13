@@ -8,12 +8,12 @@ public class ObstacleMovement : MonoBehaviour
     public float speed = 5f;             // The speed at which the obstacle moves
     private bool hasPassedPlayer = false; // Flag to track if the obstacle has passed the player
     private float playerZPosition;       // Z position of the player when the obstacle spawns
-    private PlayerScore playerScore;     // Reference to the player's score script
+    private ScoreCounter playerScore;     // Reference to the player's score script
 
     private void Start()
     {
         // Get the PlayerScore component from the scene
-        playerScore = FindObjectOfType<PlayerScore>();
+        playerScore = FindObjectOfType<ScoreCounter>();
     }
 
     private void Update()

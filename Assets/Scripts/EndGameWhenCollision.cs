@@ -1,12 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement; // To load the scene
-using System.Collections;
 
 public class PlayerTriggerCollisionDebugger : MonoBehaviour
 {
-    public PlayerScore playerScore; // Reference to PlayerScore to call OnGameOver()
+    public ScoreCounter playerScore; // Reference to PlayerScore to call OnGameOver()
     public AudioSource gameOverSound; // Reference to the AudioSource for the game-over sound
     public float delayBeforeRestart = 2f; // Delay in seconds before restarting the scene
 

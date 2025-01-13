@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class MainMenu : MonoBehaviour
+public class HighScoreDisplay : MonoBehaviour
 {
     public TextMeshProUGUI highscoreText; // Assign this in the Inspector
     private HighscoreManager highscoreManager; // Reference to the HighscoreManager

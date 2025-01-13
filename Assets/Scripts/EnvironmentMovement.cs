@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleMovementNoScore : MonoBehaviour
+public class EnvironmentMovement : MonoBehaviour
 {
     public float speed = 5f;              // The speed at which the obstacle moves
     private float playerZPosition;        // Z position of the player when the obstacle spawns

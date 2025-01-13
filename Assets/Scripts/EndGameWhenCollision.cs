@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement; // To load the scene
 
-public class PlayerTriggerCollisionDebugger : MonoBehaviour
+public class EndGameWhenCollision : MonoBehaviour
 {
     public ScoreCounter playerScore; // Reference to PlayerScore to call OnGameOver()
     public AudioSource gameOverSound; // Reference to the AudioSource for the game-over sound

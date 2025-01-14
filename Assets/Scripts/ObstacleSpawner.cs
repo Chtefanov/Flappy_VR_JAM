@@ -58,7 +58,15 @@ public class ObstacleSpawner : MonoBehaviour
         // Instantiate the selected obstacle prefab at the calculated position
         GameObject obstacle = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
         spawnedObstacles.Add(obstacle); // Add the spawned obstacle to the list
+
+        // Set the player's Z position on the obstacle
+        ObstacleMovement obstacleMovement = obstacle.GetComponent<ObstacleMovement>();
+        if (obstacleMovement != null)
+        {
+            obstacleMovement.SetPlayerZPosition(player.position.z); // Pass the player's Z position
+        }
     }
+
 
     public void DespawnAllObstacles()
     {
